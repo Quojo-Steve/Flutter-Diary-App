@@ -28,4 +28,16 @@ class Diary {
     notes.add(note);
     _myBox.put("DIARYLIST", notes);
   }
+
+  void updateNoteDescription(List<String> note, String updatedDescription) {
+    // Find the index of the note in dNotes
+    int index = _myBox.get("DIARYLIST", defaultValue: []).indexOf(note);
+
+    // Update the description at the specified index
+    List<dynamic> notes = _myBox.get("DIARYLIST", defaultValue: []);
+    notes[index][1] = updatedDescription;
+
+    // Save the updated data
+    _myBox.put("DIARYLIST", notes);
+  }
 }

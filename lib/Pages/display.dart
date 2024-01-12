@@ -1,16 +1,18 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import '../Utils/database.dart';
 
 class Display extends StatelessWidget {
-  const Display({super.key});
+  final List<String> dNote;
+
+  const Display({Key? key, required this.dNote}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // Create a TextEditingController with the initial value
     TextEditingController _descriptionController = TextEditingController(
-      text:
-          "This is the description of the note This is the description of the note",
+      text: dNote[1],
     );
 
     return Scaffold(
@@ -19,8 +21,9 @@ class Display extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              // Implement your save logic here
-              // You can access the edited text using _descriptionController.text
+              Diary db = Diary();
+              db.updateNoteDescription(dNote, _descriptionController.text);
+              Navigator.pop(context, true);
             },
             icon: Icon(Icons.check),
             color: Colors.white,
@@ -45,7 +48,7 @@ class Display extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    "This is the title".toUpperCase(),
+                    dNote[0].toUpperCase(),
                     style: TextStyle(
                       letterSpacing: 2,
                       fontWeight: FontWeight.bold,
@@ -71,8 +74,9 @@ class Display extends StatelessWidget {
               ),
               maxLines: null, // Allows multiple lines of text
               decoration: InputDecoration(
-                  hintText: "Enter the description",
-                  border: OutlineInputBorder(borderSide: BorderSide.none)),
+                hintText: "Enter the description",
+                border: OutlineInputBorder(borderSide: BorderSide.none),
+              ),
             ),
           ),
         ],

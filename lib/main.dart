@@ -26,7 +26,10 @@ class MyApp extends StatelessWidget {
       home: const HomeScreen(),
       routes: {
         '/addnote': (context) => const AddNote(),
-        '/display': (context) => const Display()
+        '':(context)=> const HomeScreen(),
+        '/display': (context) => const Display(
+              dNote: [],
+            )
       },
     );
   }

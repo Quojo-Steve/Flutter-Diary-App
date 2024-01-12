@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class ItemNote extends StatelessWidget {
+class ItemNote extends StatefulWidget {
   final List<String> dNote;
 
   const ItemNote({Key? key, required this.dNote}) : super(key: key);
 
+  @override
+  State<ItemNote> createState() => _ItemNoteState();
+}
+
+class _ItemNoteState extends State<ItemNote> {
   // Function to convert 24-hour format to 12-hour format
   String convertTo12HourFormat(String time24) {
     try {
@@ -54,87 +59,82 @@ class ItemNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String monthAbbreviation = getMonthAbbreviation(dNote[2]);
-    String formattedTime = convertTo12HourFormat(dNote[5]);
+    String monthAbbreviation = getMonthAbbreviation(widget.dNote[2]);
+    String formattedTime = convertTo12HourFormat(widget.dNote[5]);
 
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, '/display');
-      },
-      child: Container(
-        padding: EdgeInsets.only(right: 10),
-        decoration: BoxDecoration(
-          color: Colors.grey[300],
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.pinkAccent,
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    monthAbbreviation,
-                    style: TextStyle(color: Colors.white70),
-                  ),
-                  Text(
-                    dNote[3], // Day
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                  Text(
-                    dNote[4], // Year
-                    style: TextStyle(color: Colors.white70),
-                  ),
-                ],
-              ),
+    return Container(
+      padding: EdgeInsets.only(right: 10),
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.pinkAccent,
             ),
-            const SizedBox(width: 15),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          dNote[0], // Title
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+            child: Column(
+              children: [
+                Text(
+                  monthAbbreviation,
+                  style: TextStyle(color: Colors.white70),
+                ),
+                Text(
+                  widget.dNote[3], // Day
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                Text(
+                  widget.dNote[4], // Year
+                  style: TextStyle(color: Colors.white70),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 15),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        widget.dNote[0], // Title
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      Text(
-                        formattedTime, // Converted 12-hour format time
-                        style: TextStyle(fontWeight: FontWeight.w200),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    dNote[1], // Description
-                    style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                      height: 1,
                     ),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
+                    Text(
+                      formattedTime, // Converted 12-hour format time
+                      style: TextStyle(fontWeight: FontWeight.w200),
+                    ),
+                  ],
+                ),
+                Text(
+                  widget.dNote[1], // Description
+                  style: TextStyle(
+                    fontWeight: FontWeight.w300,
+                    height: 1,
                   ),
-                ],
-              ),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

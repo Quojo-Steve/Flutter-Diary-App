@@ -1,6 +1,6 @@
+import 'package:diary_app/Pages/display.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import '../Utils/database.dart';
 import '../Utils/item_note.dart';
 
@@ -33,6 +33,20 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
+  Future<void> _navigateToDisplayScreen(List<String> note) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Display(dNote: note),
+      ),
+    );
+
+    // After navigating back from the 'display' screen, reload data
+    db.loadData();
+    // Update the UI by calling setState
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     List<List<String>> notes = db.loadData();
@@ -57,10 +71,16 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: ListView.builder(
         itemCount: notes.length,
-        itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.all(8.0),
-          child: ItemNote(
-            dNote: notes[index],
+        itemBuilder: (context, index) => GestureDetector(
+          onTap: () {
+            // Pass the selected note to the _navigateToDisplayScreen function
+            _navigateToDisplayScreen(notes[index]);
+          },
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: ItemNote(
+              dNote: notes[index],
+            ),
           ),
         ),
       ),
